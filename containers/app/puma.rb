@@ -7,4 +7,4 @@ prune_bundler
 worker_timeout 300
 rackup DefaultRackup
 port 3000
-environment ENV["RAILS_ENV"]
+environment "development"

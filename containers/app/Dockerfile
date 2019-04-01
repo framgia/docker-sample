@@ -3,9 +3,9 @@ ENV LANG C.UTF-8
 
 RUN /bin/cp -f /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
 
-RUN curl -sL https://deb.nodesource.com/setup_7.x | bash - && \
-    apt-get update -qq && \
+RUN apt-get update -qq && \
     apt-get install -y build-essential \
+                       nodejs \
                        mysql-client && \
     rm -rf /var/lib/apt/lists/*
 
