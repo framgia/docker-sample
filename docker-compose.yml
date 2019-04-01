@@ -1,0 +1,36 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: containers/app/Dockerfile
+    command: bash -c "rake i18n:js:export assets:precompile db:create db:migrate && pumactl -F ./containers/rails/puma.rb start"
+    volumes:
+      - .:/webapp:cached
+      - public-data:/webapp/public
+      - tmp-data:/webapp/tmp
+      - log-data:/webapp/log
+    depends_on:
+      - db
+    ports:
+      - 3000:3000
+    tty: true
+    stdin_open: true
+
+  db:
+    restart:
+      always
+    image: mysql:5.6
+    environment:
+      - MYSQL_ROOT_PASSWORD=passw0rd
+    volumes:
+      - ./containers/mysql/my.cnf:/etc/mysql/my.cnf
+      - db-data:/var/lib/mysql
+    ports:
+      - 43306:3306
+
+volumes:
+  public-data:
+  tmp-data:
+  log-data:
+  db-data:
