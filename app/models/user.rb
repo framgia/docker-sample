@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  attr_accessor :archived
 
   scope :available, ->{where archived_at: nil}
 
