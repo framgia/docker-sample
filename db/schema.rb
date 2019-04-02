@@ -17,7 +17,7 @@ ActiveRecord::Schema.define(version: 2019_04_02_023906) do
     t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.date "archived_at"
+    t.datetime "archived_at"
   end
 
 end

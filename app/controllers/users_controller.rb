@@ -1,10 +1,10 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit, :update]
 
   # GET /users
   # GET /users.json
   def index
-    @users = User.all_avilable_users
+    @users = User.available.all
   end
 
   # GET /users/1
@@ -12,7 +12,7 @@ class UsersController < ApplicationController
   def show
     if !@user
       flash[:error] = "ユーザーが見つかりませんでした。"
-      redirect_to action: 'index'
+      redirect_to action: :index
     end
   end
 
@@ -68,7 +68,7 @@ class UsersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
-      @user = User.find_avilable_user(params[:id])
+      @user = User.available.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
