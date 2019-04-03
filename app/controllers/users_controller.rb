@@ -54,14 +54,6 @@ class UsersController < ApplicationController
     end
   end
 
-  # DELETE /users/delete
-  def delete
-    binding.pry
-    # user_ids = delete_params
-    # render plain: user_ids.inspect
-
-  end
-
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy

@@ -22,15 +22,5 @@ function submitFnc(){
     form.appendChild(method);
 
     form.action += id_str;
-    sleep(5000);
   }
-}
-
-function sleep(a){
-  var dt1 = new Date().getTime();
-  var dt2 = new Date().getTime();
-  while (dt2 < dt1 + a){
-    dt2 = new Date().getTime();
-  }
-  return;
 }
