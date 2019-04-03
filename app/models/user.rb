@@ -9,7 +9,7 @@ class User < ApplicationRecord
   end
 
   def unavailable
-    archived_at = Time.zone.now unless archived_at
+    self.archived_at = Time.zone.now unless archived_at
   end
 
   def unavailable!
