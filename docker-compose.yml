@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: containers/app/Dockerfile
-    command: bash -c "rake assets:precompile db:create db:migrate && pumactl -F ./containers/app/puma.rb start"
+    command: bash -c "rake assets:precompile db:create db:migrate && cp -f ./app/assets/statics/* ./public/ && pumactl -F ./containers/app/puma.rb start"
     volumes:
       - .:/webapp:cached
       - public-data:/webapp/public
