@@ -1,14 +1,17 @@
+<%= javascript_include_tag 'users/index.js' %>
 <p id="notice"><%= notice %></p>
 
 <h1>Users</h1>
 
-<%= form_tag users_path do %>
+<%= form_tag users_path, id: :form do %>
+  <input type="hidden" name="_method" value="get" />
 <table>
   <thead>
     <tr>
       <th>Name</th>
       <th>Email</th>
-      <th colspan="3"></th>
+      <th colspan="2"></th>
+      <th>Delete</th>
     </tr>
   </thead>
 
@@ -19,7 +22,7 @@
           <td><%= user.email %></td>
           <td><%= link_to 'Show', user %></td>
           <td><%= link_to 'Edit', edit_user_path(user) %></td>
-          <td><%= check_box_tag 'unavailable', user.id, user.archived %></td>
+          <td><%= check_box_tag 'id[]', user.id, user.archived %></td>
         </tr>
       <% end %>
   </tbody>
@@ -28,5 +31,5 @@
 <br>
 
 <%= link_to 'New User', new_user_path %>
-<%= submit_tag 'Delete User' %>
-    <% end %>
+<button type="button" onclick="submitFnc();submit()">Delete</button>
+<% end %>

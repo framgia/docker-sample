@@ -54,14 +54,27 @@ class UsersController < ApplicationController
     end
   end
 
+  # DELETE /users/delete
+  def delete
+    binding.pry
+    # user_ids = delete_params
+    # render plain: user_ids.inspect
+
+  end
+
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
-    @user.destroy
-    respond_to do |format|
-      format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
-      format.json { head :no_content }
+    params[:id].split(',').each do |id|
+      User.find(id).unavailable!
     end
+    redirect_to action: :index
+
+    # @user.destroy
+    # respond_to do |format|
+    #   format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
+    #   format.json { head :no_content }
+    # end
   end
 
   private

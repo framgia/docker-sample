@@ -3,17 +3,17 @@ class User < ApplicationRecord
 
   scope :available, ->{where archived_at: nil}
 
-  def avilable?
+  def available?
     return true unless archived_at
     false
   end
 
-  def unavilable
+  def unavailable
     archived_at = Time.zone.now unless archived_at
   end
 
-  def unavilable!
-    unavilable
+  def unavailable!
+    unavailable
     save!
   end
 end
