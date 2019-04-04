@@ -14,11 +14,11 @@ describe User, type: :model do
     end
   end
 
-  describe '#unavailable' do
+  describe '#archive' do
     let(:user){create :user, archived_at: archived_at, created_at: 1.day.before(now), updated_at: 1.day.before(now)}
     let(:archived_at){nil}
     let(:now){"2019-04-04 12:34".to_datetime}
-    subject{user.unavailable}
+    subject{user.archive}
     context "archived_at is set" do
       let(:archived_at){Time.zone.now}
       it{expect{subject}.not_to change(user, :archived_at)}
@@ -34,11 +34,11 @@ describe User, type: :model do
     end
   end
 
-  describe "#unavailable!" do
+  describe "#archive!" do
     let(:user){create :user, archived_at: archived_at, created_at: 1.day.before(now) ,updated_at: 1.day.before(now)}
     let(:archived_at){nil}
     let(:now){"2019-04-04 12:34".to_datetime}
-    subject{user.unavailable!}
+    subject{user.archive!}
     context "archived_at is set" do
       let(:archived_at){Time.zone.now}
       it{expect{subject}.not_to change(user, :archived_at)}
@@ -50,6 +50,43 @@ describe User, type: :model do
       end
       it{expect{subject}.to change(user, :archived_at).from(nil).to(now)}
       it{expect{subject}.to change(user, :updated_at)}
+    end
+  end
+
+
+  describe ".multi_archive!" do
+    let!(:available_user1){create :user}
+    let!(:available_user2){create :user}
+    let!(:unavailable_user1){create :user, :unavailable}
+    let(:user_ids){[]}
+    subject{described_class.multi_archive! user_ids}
+    context "there are multiple id" do
+      context "there are only available users" do
+        let(:user_ids){[available_user1.id, available_user2.id]}
+        it do
+          expect{subject}.to change(User.available, :count).from(2).to(0)
+        end
+      end
+      context "there ain't only available users" do
+        let(:user_ids){[available_user1.id, unavailable_user1.id]}
+        it do
+          expect{subject}.to raise_error
+        end
+      end
+    end
+    context "there is one id" do
+      context "user is available" do
+        let(:user_ids){[available_user1.id]}
+        it do
+          expect{subject}.to change(User.available, :count).from(2).to(1)
+        end
+      end
+      context "user isn't available" do
+        let(:user_ids){[unavailable_user1.id]}
+        it do
+          expect{subject}.to raise_error
+        end
+      end
     end
   end
 end
