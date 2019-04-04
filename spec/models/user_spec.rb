@@ -54,10 +54,12 @@ describe User, type: :model do
   end
 
 
-  describe "#multi_archive!" do
+  describe ".multi_archive!" do
     let!(:available_user1){create :user}
     let!(:available_user2){create :user}
     let!(:unavailable_user1){create :user, :unavailable}
+    let(:user_ids){[]}
+    subject{described_class.multi_archive! user_ids}
     context "there are multiple id" do
       context "there are only available users" do
       end
@@ -66,7 +68,9 @@ describe User, type: :model do
     end
     context "there is one id" do
       context "user is available" do
+        let(:user_ids){[available_user1.id]}
         it do
+          expect{subject}.to change(User.available, :count).from(2).to(1)
           # ここだけ見本として書いてほしいですm(_ _)m
         end
       end
