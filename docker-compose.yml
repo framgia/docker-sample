@@ -12,6 +12,7 @@ services:
       - log-data:/webapp/log
     depends_on:
       - db
+      - redis
     ports:
       - 3000:3000
     tty: true
@@ -28,6 +29,13 @@ services:
       - db-data:/var/lib/mysql
     ports:
       - 43306:3306
+
+  redis:
+    restart:
+      always
+    image: redis:5.0
+    ports: 
+      - 16379:6379
 
 volumes:
   public-data:
