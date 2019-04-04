@@ -8,12 +8,22 @@ class User < ApplicationRecord
     false
   end
 
-  def unavailable
+  def archive
     self.archived_at = Time.zone.now unless archived_at
   end
 
-  def unavailable!
-    unavailable
+  def archive!
+    archive
     save!
+  end
+
+  class << self
+    def multi_archive! ids
+      User.transaction do
+        ids.each do |id|
+          User.available.find(id).archive!
+        end
+      end
+    end
   end
 end
