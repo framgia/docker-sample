@@ -31,5 +31,16 @@ module DockerSample
     config.generators.system_tests = nil
 
     config.cache_store = :redis_store, "redis://localhost:6379/0/cache", { expires_in: 90.minutes }
+    config.session_store :redis_store, {
+      servers: [
+        {
+          host: "redis",
+          port: 6379,
+          db: 0,
+          namespace: "session"
+        },
+      ],
+      key: "_#{Rails.application.class.parent_name.downcase}_session"
+    }
   end
 end
