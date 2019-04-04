@@ -57,8 +57,10 @@ class UsersController < ApplicationController
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
-    params[:id].split(',').each do |id|
-      User.available.find(id).unavailable!
+    User.transaction do
+      params[:id].split(',').each do |id|
+        User.available.find(id).unavailable!
+      end
     end
     redirect_to action: :index
 

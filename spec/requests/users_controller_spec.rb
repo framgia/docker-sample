@@ -55,16 +55,28 @@ RSpec.describe UsersController, type: :request do
             it do
               delete user_url(id: "#{available_user1.id},#{available_user2.id}")
               expect(response).to redirect_to(users_url)
-              expect(available_user1.available?).to be_falsey
-              expect(available_user2.available?).to be_falsey
+            end
+            it do
+              delete user_url(id: "#{available_user1.id},#{available_user2.id}")
+              expect(available_user1.reload.available?).to be_falsey
+            end
+            it do
+              delete user_url(id: "#{available_user1.id},#{available_user2.id}")
+              expect(available_user2.reload.available?).to be_falsey
             end
           end
           context "there ain't only available user" do
             it do
               delete user_url(id: "#{available_user1.id},#{unavailable_user1},#{available_user2.id}")
               expect(response.status).to eq 404
-              expect(available_user1.available?).to be_truthy
-              expect(available_user2.available?).to be_truthy
+            end
+            it do
+              delete user_url(id: "#{available_user1.id},#{unavailable_user1},#{available_user2.id}")
+              expect(available_user1.reload.available?).to be_truthy
+            end
+            it do
+              delete user_url(id: "#{available_user1.id},#{unavailable_user1},#{available_user2.id}")
+              expect(available_user2.reload.available?).to be_truthy
             end
           end
         end
