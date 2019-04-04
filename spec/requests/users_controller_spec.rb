@@ -34,13 +34,15 @@ RSpec.describe UsersController, type: :request do
   end
 
   describe "DELETE #destroy" do
+    let!(:available_user1){create :user}
+    let!(:available_user2){create :user}
+    let!(:unavailable_user1){create :user, :unavailable}
+
     context "id exists" do
       context "user is available" do
         context "there is one user" do
           it do
-            user = Array.new(3, available_user)
-            delete user_url(id: available_user.id)
-            expect(response.status).to eq 302
+            delete user_url(id: available_user1.id)
             expect(response).to redirect_to(users_url)
           end
         end
