@@ -36,17 +36,27 @@ RSpec.describe UsersController, type: :request do
   describe "DELETE #destroy" do
     context "id exists" do
       context "user is available" do
-        context "tere is one user" do
+        context "there is one user" do
+          it do
+            user = Array.new(3, available_user)
+            delete user_url(id: available_user.id)
+            expect(response.status).to eq 302
+            expect(response).to redirect_to(users_url)
+          end
         end
         context "there are multiple user" do
         end
       end
       context "user isn't available" do
+        it do
+          delete user_url(id: unavailable_user.id)
+          expect(response.status).to eq 404
+        end
       end
     end
     context "id doesn't exist" do
       it do
-        get user_url(id: "x123"), params:{_method: :delete}
+        delete user_url(id: "x123")
         expect(response.status).to eq 404
       end
     end
