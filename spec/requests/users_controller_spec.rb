@@ -9,4 +9,14 @@ RSpec.describe UsersController, type: :request do
       expect(response.status).to eq 200
     end
   end
+  describe "GET #show" do
+    context "id exists" do
+      context "user is available" do
+      end
+      context "user isn't available" do
+      end
+    end
+    context "id doesn't exist" do
+    end
+  end
 end
