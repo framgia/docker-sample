@@ -36,11 +36,11 @@ module DockerSample
         {
           host: "redis",
           port: 6379,
-          db: 0,
+          db: 1,
           namespace: "session"
         },
       ],
-      key: "_#{Rails.application.class.parent_name.downcase}_session"
+      key: "_#{self.parent.name.underscore}_session"
     }
   end
 end
